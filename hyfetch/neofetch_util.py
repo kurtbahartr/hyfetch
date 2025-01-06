@@ -333,7 +333,7 @@ def run_qwqfetch(asc: str, args: str = ''):
         import qwqfetch
         # distro_detector only return a bash variable
         # so we use qwqfetch builtin distro detector
-        print(qwqfetch.get_ascres(asc))  
+        print(qwqfetch.get_ascres(asc))
     except ImportError as e:  # module not found etc
         print("qwqfetch is not installed. Install it by executing:")  # use print to output hint directly
         print("pip install git+https://github.com/nexplorer-3e/qwqfetch")  # TODO: public repo
@@ -379,16 +379,18 @@ def run_fastfetch(asc: str, args: str = '', legacy: bool = False):
     """
     # Find fastfetch binary
     ff_path = fastfetch_path()
-    
+
     if not ff_path:
         printc("&cError: fastfetch binary is not found. Please install fastfetch first.")
         exit(127)
-    
+
     # Write temp file
     with TemporaryDirectory() as tmp_dir:
         tmp_dir = Path(tmp_dir)
         path = tmp_dir / 'ascii.txt'
         path.write_text(asc, 'utf-8')
+
+        os.environ['FFTS_IGNORE_PARENT'] = '1'
 
         # Call fastfetch with the temp file
         proc = subprocess.run([str(ff_path), '--raw' if legacy else '--file-raw',

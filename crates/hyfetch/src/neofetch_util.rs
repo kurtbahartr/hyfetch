@@ -438,6 +438,7 @@ where
     debug!(?ff_path, "fastfetch path");
 
     let mut command = Command::new(ff_path);
+    command.env("FFTS_IGNORE_PARENT", "1");
     command.args(args);
     Ok(command)
 }
